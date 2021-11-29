@@ -19,6 +19,6 @@ sẽ cho ra một đoạn code dễ đọc hơn nhiều.
   ![image-20211129125539440](https://github.com/shine102/CTF-Writeups/blob/main/ISITDTU_2021/RE/warmup1.png)
 
 - Công việc còn lại khá đơn giản, là viết 1 đoạn code để xuất ra flag, ở đây chúng mình dùng python: 
-  - cipher = [61, 38, 40, 58, 40, 61, 59, 19, 30, 0, 18, 26, 51, 8, 49, 10, 27, 7, 8, 0, 11, 54, 25, 9, 6, 24, 76, 27, 28, 54, 13, 0, 21, 25, 13, 11, 2, 14, 11, 55, 19, 26, 14, 10, 51, 5, 27, 11, 31, 42, 9, 15, 26, 12, 49, 14, 1, 27, 28] key = "tuanlinh" for c, i in enumerate(cipher):    print(chr(ord(key[i%len(key)]) ^ c), end='')
+  - cipher = [61, 38, 40, 58, 40, 61, 59, 19, 30, 0, 18, 26, 51, 8, 49, 10, 27, 7, 8, 0, 11, 54, 25, 9, 6, 24, 76, 27, 28, 54, 13, 0, 21, 25, 13, 11, 2, 14, 11, 55, 19, 26, 14, 10, 51, 5, 27, 11, 31, 42, 9, 15, 26, 12, 49, 14, 1, 27, 28] key = "tuanlinh" for i, c in enumerate(cipher):    print(chr(ord(key[i%len(key)]) ^ c), end='')
 
 III. Flag: ISITDTU{just_a_boring_warm-up_challenge_good_luck_have_fun}
