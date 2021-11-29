@@ -11,7 +11,7 @@ I. Initial reconnaissance:
 
 II. Analyze and find the vulnerabilities:
 
-- Sau khi đọc qua về syntax của lua thì mình biết được, hàm a là hàm chính của chương trình. Đoạn code có thể hiểu được, tuy nhiên, để dịch ngược lại toàn bộ là điều vô cùng khó khăn. Để ý trước khi hàm a được gọi, sẽ có 1 function là loadstring() [lua doc](https://www.lua.org/pil/8.html). Vì lua là 1 ngôn ngữ thông dịch, hàm này sẽ giúp lập trình viên chạy luôn function bằng cách gọi tên_function() (như cách gọi if a then a() ở dòng cuối cùng của source code).
+- Sau khi đọc qua về syntax của lua thì mình biết được, hàm a là hàm chính của chương trình. Đoạn code có lẽ là 1 dạng làm rối mã của lua, có thể hiểu được, tuy nhiên, để dịch ngược lại toàn bộ là điều vô cùng khó khăn. Để ý trước khi hàm a được gọi, sẽ có 1 function là loadstring() [lua doc](https://www.lua.org/pil/8.html). Vì lua là 1 ngôn ngữ thông dịch, hàm này sẽ giúp lập trình viên chạy luôn function bằng cách gọi tên_function() (như cách gọi if a then a() ở dòng cuối cùng của source code).
 
 - Mình đã thử xóa dòng này đi, đồng thời thay a() bằng print(a) ở dòng cuối cùng. Kết quả khi chạy trên [online interpreter](https://www.tutorialspoint.com/execute_lua_online.php)
 sẽ cho ra một đoạn code dễ đọc hơn nhiều. 
