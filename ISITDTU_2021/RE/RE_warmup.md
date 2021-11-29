@@ -5,15 +5,15 @@ I. Initial reconnaissance:
 
 ![image-20211129124122653](https://github.com/shine102/CTF-Writeups/blob/main/ISITDTU_2021/RE/warmup2.png)
 
-- Nhìn qua thì challenge là 1 đoạn code lua, sau khi đã đọc qua hướng dẫn về lua tại [lua tutorialspoint]: https://www.tutorialspoint.com/lua/index.htm thì mình đã làm sạch nó như trên hình.
+- Nhìn qua thì challenge là 1 đoạn code lua, sau khi đã đọc qua hướng dẫn về lua tại [lua tutorialspoint](https://www.tutorialspoint.com/lua/index.htm) thì mình đã làm sạch nó như trên hình.
 
-- Khi chạy bằng [Online interpreter]: https://www.tutorialspoint.com/execute_lua_online.php thì báo lỗi thiếu thư viện bit.
+- Khi chạy bằng [Online interpreter](https://www.tutorialspoint.com/execute_lua_online.php) thì báo lỗi thiếu thư viện bit.
 
 II. Analyze and find the vulnerabilities:
 
 - Sau khi đọc qua về syntax của lua thì mình biết được, hàm a là hàm chính của chương trình. Đoạn code có thể hiểu được, tuy nhiên, để dịch ngược lại toàn bộ là điều vô cùng khó khăn. Để ý trước khi hàm a được gọi, sẽ có 1 function là loadstring() [lua doc]: https://www.lua.org/pil/8.html	"lua doc". Vì lua là 1 ngôn ngữ thông dịch, hàm này sẽ giúp lập trình viên chạy luôn function bằng cách gọi tên_function() (như cách gọi if a then a() ở dòng cuối cùng của source code).
 
-- Mình đã thử xóa dòng này đi, đồng thời thay a() bằng print(a) ở dòng cuối cùng. Kết quả khi chạy trên[online interpreter]: https://www.tutorialspoint.com/execute_lua_online.php
+- Mình đã thử xóa dòng này đi, đồng thời thay a() bằng print(a) ở dòng cuối cùng. Kết quả khi chạy trên [online interpreter](https://www.tutorialspoint.com/execute_lua_online.php)
 sẽ cho ra một đoạn code dễ đọc hơn nhiều. 
 
   ![image-20211129125539440](https://github.com/shine102/CTF-Writeups/blob/main/ISITDTU_2021/RE/warmup1.png)
