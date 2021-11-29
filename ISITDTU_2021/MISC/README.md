@@ -2,11 +2,11 @@
 
 Đề bài cho chúng ta tệp [Characters.rar](https://drive.google.com/file/d/1v4u8Iu8CAB97uV-3CV7E4-A-ica_ZvSC/view?usp=sharing), sau khi tải về giải nén ta được 2 file tương ứng như hình bên dưới:
 
-![image-20211129133527782](C:\Users\Asus\AppData\Roaming\Typora\typora-user-images\image-20211129133527782.png)
+![alt text](https://raw.githubusercontent.com/shine102/CTF-Writeups/main/ISITDTU_2021/MISC/1.png)
 
 Bên trong file Hex_Base.rar bao gồm một tập tin Player.txt (được bảo vệ bằng mật khẩu) và một đoạn mã `466f726d61742074686520666c6167206279206368617261637465723a20377b375f325f31307d`:
 
-![image-20211129133944729](C:\Users\Asus\AppData\Roaming\Typora\typora-user-images\image-20211129133944729.png)
+![alt text](https://raw.githubusercontent.com/shine102/CTF-Writeups/main/ISITDTU_2021/MISC/2.png)
 
 Có thể đoán flag có thể ẩn giấu đâu đó trong tệp *.txt được bảo vệ kia. Như vậy nhiệm vụ trước mắt của chúng ta bây giờ là đi tìm được cái đoạn mật khẩu đó để tìm hiểu xem nội dung bên trong của Player.txt. Các dữ kiện chúng ta đang có là đoạn mã dài loằng ngoằng ở trên và tệp Go_find_the_flag.txt. Dựa vào tên của tệp thì ta có thể đoán đây là mã hex, giải mã ra cho chúng ta nội dung  `Format the flag by character: 7{7_2_10}`. Có thể suy luận đây là định dạng của flag trong bài này.
 
@@ -16,7 +16,7 @@ Việc tiếp theo của chúng ta là kiểm tra file Go_find_the_flag.txt kia:
 
 Nhìn có vẻ khá là pikachu, nhìn kỹ hơn thì đây có khả năng chính là pikalang (mà theo như người tạo ra nó mô tả là biến thể của Brainfuck dựa trên nhân vật Pikachu). Về cơ bản thì nó chỉ thay thế các ký tự của brainfuck thành các từ có trong cái tên của nhân vật này bao gồm: `pi, ka, pika, chu, pipi, pichu, pikapi, pikachu`
 
-![image-20211129135924460](C:\Users\Asus\AppData\Roaming\Typora\typora-user-images\image-20211129135924460.png)
+![alt text](https://raw.githubusercontent.com/shine102/CTF-Writeups/main/ISITDTU_2021/MISC/3.png)
 
 Thông qua trang [Dcode.fr](https://www.dcode.fr/pikalang-language)  này ta có thể dễ dịch chuyển đổi đoạn mã trên. Tuy nhiên chúng ta lại gặp khó khăn vì dựa vào bảng mã chuyển thể thì `ak` không có tương ứng ở brainfuck. Vậy nên đoạn mã trên không thể dịch được. Điều cần làm bây giờ là phải xoá hoặc thay thế `ak` để nó có thể dịch được. Mình có thử xoá nó đi thì ra các ký tự không rõ ràng. Vậy ta có thể loại trừ phương pháp này. Điều còn lại ta có thể thử từng ký tự trong bản trên với hi vọng mong manh là tìm được lựa chọn thích hợp. Tuy nhiên thử thì cũng hơi lâu nên mình mò lại đề bài xem có tìm được gì hay ho không,
 
