@@ -5,7 +5,7 @@ Mình sử dụng IDA PRO để phân tích file này, mình sử dụng chức 
 
 ![Ảnh code C hàm main](1.png)
 
-Chúng ta được một mớ code phức tạp, mình thấy có gọi IsDebugPresent nên đoán chắc đoạn này có 2 trường hợp:  
+Chúng ta được một mớ code phức tạp, mình thấy có gọi IsDebuggerPresent nên đoán chắc đoạn này có 2 trường hợp:  
 - Đoạn này dùng để anti debug và ngăn thí sinh đi đường tắt.
 - Hoặc đoạn đó dùng để decrypt flag trong bộ nhớ.
 
