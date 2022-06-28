@@ -28,8 +28,8 @@ def index():
             return render_template_string(error_page)
 
         hair_type = request.form['hair'].lower()
-        if '{' in hair_type and re.search(regex,hair_type):
-            return render_template_string(error_page)
+        # if '{' in hair_type and re.search(regex,hair_type):
+        #     return render_template_string(error_page)
 
         if len(hair_type) > 256:
             return render_template_string(error_page)
