@@ -5,7 +5,7 @@
 
 [Source code](Source)
 
-[Link challenge (sẽ đóng sau 2 tuần)](34.80.117.212:9005)
+[Link challenge, sẽ đóng sau 2 tuần](34.80.117.212:9005)
 
 ## Solution
 - Challenge bắt đầu bằng màn hình như dưới: 
