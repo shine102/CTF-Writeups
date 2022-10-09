@@ -1,6 +1,8 @@
 # WYSINWYG
 ## Challenge
 ![Challenge](/FUSec_2022/MISC/WYSINWYG/images/Challenge.png)
+
+[File](/FUSec_2022/MISC/WYSINWYG/Android101_final.apk)
 ## Solution
 Sau khi tải file được cho từ đề bài (file apk), mình đã sử dụng jadx-gui để decompile cái file này.
 
