@@ -16,7 +16,7 @@ Nếu đoán đúng đươc 2 lần thì server sẽ trả cho ta flag đã bị
 
 ### Part I, Lấy được flag đã mã hóa và key
 
-Các thuật toán sinh random đều chỉ sinh ra được những số giả ngẫu nhiên nên nếu chúng ta hoàn toàn có thể dự đoán được số tiếp theo dựa theo các số trước đó.
+Các thuật toán sinh random đều chỉ sinh ra được những số giả ngẫu nhiên nên chúng ta hoàn toàn có thể dự đoán được số tiếp theo dựa theo các số trước đó.
 
 Các thư viện để crack được random của python đã có nhiều nên mình sẽ không phát minh lại bánh xe nữa :)
 
@@ -50,7 +50,7 @@ while True:
         print(s.recv(1024))
 ```
 
-Không hiểu nhân phẩm mình bị làm sao mà gửi lên mấy lần đều không được. Đang trầm cảm, đi ra ngoài 1 tí thì thấy thằng bạn bấm hộ gửi thành công :D
+Không hiểu nhân phẩm mình bị làm sao mà gửi lên mấy lần đều không được. Đang trầm cảm, đi ra ngoài 1 tí quay lại thì thấy thằng bạn bấm hộ gửi thành công :D
 
 Mình nhận là được flag sau khi mã hóa dưới dạng hex
 `4e311c356ac2d830e82a90630690e21ad39b5cc2187bf43069fa59d47ce03c0a7b5696117ee4a43681a8800ed30ef598`
