@@ -67,7 +67,11 @@ session_start();
         </div>
     </form>
 </body>
+a != b
 
+md5(a) === md5(b)
+
+hash collision
 </html>
 <?php
 if (isset($_POST["submit"])) {
