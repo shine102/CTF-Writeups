@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+    ehc_social_network:
+        restart: always
+        build: .
+        image: ehc_social_network
+        ports:
+            - "3000:3000"
+        user: "1000:1000"
