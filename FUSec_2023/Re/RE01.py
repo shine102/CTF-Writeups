@@ -1,0 +1,61 @@
+import z3
+
+solver = z3.Solver()
+
+# flag is an array of 49 chars
+flag = [z3.BitVec(f'flag[{i}]', 8) for i in range(49)]
+
+solver.add(flag[1] + flag[0] % 19 == 0x72)
+solver.add(flag[2] + flag[0] + 19 == 0x87)
+solver.add(flag[3] + 19 * flag[0] == 0x565)
+solver.add(flag[5] + flag[4] % 0x90909014 == 0x39)
+solver.add(flag[4] + flag[6] + 20 == 0x0EE)
+solver.add(flag[7] + 20 * flag[4] == 0x8D7)
+solver.add(flag[9] + flag[8] % 21 == 0x82)
+solver.add(flag[8] + flag[10] + 21 == 0x0A5)
+solver.add(flag[11] + 21 * flag[8] == 0x83F)
+solver.add(flag[13] + flag[12] % 22 == 0x6F)
+solver.add(flag[12] + flag[14] + 22 == 0x0BF)
+solver.add(flag[15] + 22 * flag[12] == 0x95E)
+solver.add(flag[17] + flag[16] % 23 == 0x32)
+solver.add(flag[18] + flag[16] + 23 == 0x0B8)
+solver.add(flag[19] + 23 * flag[16] == 0x0AB0)
+solver.add(flag[21] + flag[20] % 24 == 0x74)
+solver.add(flag[20] + flag[22] + 24 == 0x7D)
+solver.add(flag[23] + 24 * flag[20] == 0x50B)
+solver.add(flag[25] + flag[24] % 25 == 0x42)
+solver.add(flag[24] + flag[26] + 25 == 0x0F9)
+solver.add(flag[27] + 25 * flag[24] == 0x0B9D)
+solver.add(flag[29] + flag[28] % 26 == 0x7D)
+solver.add(flag[28] + flag[30] + 26 == 0x0E5)
+solver.add(flag[31] + 26 * flag[28] == 0x0B6C)
+solver.add(flag[33] + flag[32] % 27 == 0x7B)
+solver.add(flag[34] + flag[32] + 27 == 0x0B6)
+solver.add(flag[35] + 27 * flag[32] == 0x5CF)
+solver.add(flag[37] + flag[36] % 28 == 0x86)
+solver.add(flag[36] + flag[38] + 28 == 0x0C2)
+solver.add(flag[39] + 28 * flag[36] == 0x58F)
+solver.add(flag[40] + 28 * flag[36] == 0x5BB)
+solver.add((flag[33] ^ flag[34]) * (flag[38] + flag[39] + flag[36] + flag[37] + flag[40] + flag[35]) == 5885)
+solver.add((flag[33] ^ flag[35] ^ flag[34]) * (flag[38] + flag[39] + flag[36] + flag[37] + flag[40]) == 42925)
+solver.add((flag[33] + flag[34] + flag[35]) * (flag[39] ^ flag[38] ^ flag[36] ^ flag[40] ^ flag[37]) == 27857)
+solver.add((flag[26] ^ flag[25]) * (flag[29] + flag[32] + flag[27] + flag[30] + flag[31] + flag[28]) == 55366)
+solver.add(flag[29] + flag[28] + (flag[27] ^ flag[26] ^ flag[25]) + flag[32] * flag[30] * flag[31] == 562309)
+solver.add(flag[26] + flag[27] + flag[25] + (flag[32] ^ flag[31] ^ (flag[29] * flag[30] * flag[28])) == 1241653)
+solver.add(flag[17] * flag[18] * flag[19] + (flag[23] ^ flag[22] ^ flag[20] ^ flag[24] ^ flag[21]) == 150058)
+solver.add(flag[20] + flag[17] * flag[18] * flag[19] - flag[24] - flag[21] - flag[23] - flag[22] == 149592)
+solver.add(flag[22] + flag[23] + flag[20] + flag[21] + flag[24] + (flag[17] ^ flag[19] ^ flag[18]) == 534)
+solver.add(flag[10] * flag[11] * flag[9] + (flag[16] ^ flag[13] ^ flag[15] ^ flag[14] ^ flag[12]) == 676504)
+solver.add((flag[10] + flag[9]) * (flag[16] ^ flag[13] ^ flag[15] ^ flag[14] ^ (flag[11] + flag[12])) == 36288)
+solver.add(flag[13] + flag[16] + flag[10] + flag[15] + flag[9] + flag[12] - flag[14] - flag[11] == 412)
+solver.add(flag[2] - (flag[7] ^ flag[6] ^ flag[4] ^ flag[8] ^ flag[5] ^ flag[3]) - flag[1] == -158)
+solver.add(flag[1] + flag[6] + flag[7] + flag[4] + flag[5] + flag[8] + flag[3] - flag[2] == 628)
+solver.add(flag[1] - (flag[7] ^ flag[6] ^ flag[4] ^ flag[8] ^ flag[5] ^ flag[3]) - flag[2] == -48)
+
+assert solver.check() == z3.sat
+
+model = solver.model()
+
+print(model)
+
+print(''.join(chr(model[flag[i]].as_long()) for i in range(49) if model[flag[i]] != None))
