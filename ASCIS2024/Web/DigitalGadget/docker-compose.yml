@@ -1,0 +1,8 @@
+services:
+  chall:
+    build: .
+    ports:
+      - "1080:80"
+    volumes:
+      - './flag.txt:/etc/flag.txt:ro'
+    restart: always

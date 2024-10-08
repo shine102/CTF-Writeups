@@ -10,3 +10,6 @@
 
 ## 2023
 - [FUSec 2023](/FUSec_2023/README.md)
+
+## 2024
+- [FUSec 2024](/FUSec_2024/README.md)
