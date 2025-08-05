@@ -13,3 +13,6 @@
 
 ## 2024
 - [ASCIS 2024](/ASCIS2024/README.md)
+
+## 2025
+- [WIZ Cloud Security Championship 2025](/WIZ_Cloud_Security_Championship_2025/README.md)
